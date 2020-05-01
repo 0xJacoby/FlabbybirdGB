@@ -1,103 +1,779 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : FreeWare ANSI-C Compiler
-                              3 ; Version 2.3.1 Tue Apr 28 20:14:55 2020
+                              3 ; Version 2.3.1 Thu Apr 30 12:23:18 2020
                               4 
                               5 ;--------------------------------------------------------
-                              6 	.module lcc209180
+                              6 	.module lcc65750
                               7 	
                               8 ;--------------------------------------------------------
                               9 ; Public variables in this module
                              10 ;--------------------------------------------------------
                              11 	.globl _main
-                             12 ;--------------------------------------------------------
-                             13 ; special function registers
-                             14 ;--------------------------------------------------------
-                             15 ;--------------------------------------------------------
-                             16 ; special function bits 
-                             17 ;--------------------------------------------------------
+                             12 	.globl _setup_pipeLower
+                             13 	.globl _i
+                             14 	.globl _column
+                             15 	.globl _Sprites
+                             16 ;--------------------------------------------------------
+                             17 ; special function registers
                              18 ;--------------------------------------------------------
-                             19 ; internal ram data
-                             20 ;--------------------------------------------------------
-                             21 	.area _DATA
+                             19 ;--------------------------------------------------------
+                             20 ; special function bits 
+                             21 ;--------------------------------------------------------
                              22 ;--------------------------------------------------------
-                             23 ; overlayable items in internal ram 
+                             23 ; internal ram data
                              24 ;--------------------------------------------------------
-                             25 	.area _OVERLAY
-                             26 ;--------------------------------------------------------
-                             27 ; indirectly addressable internal ram data
-                             28 ;--------------------------------------------------------
-                             29 	.area _ISEG
-                             30 ;--------------------------------------------------------
-                             31 ; bit data
+                             25 	.area _DATA
+   0000                      26 _Sprites::
+   0000                      27 	.ds 448
+   01C0                      28 _column::
+   01C0                      29 	.ds 1
+   01C1                      30 _i::
+   01C1                      31 	.ds 2
                              32 ;--------------------------------------------------------
-                             33 	.area _BSEG
+                             33 ; overlayable items in internal ram 
                              34 ;--------------------------------------------------------
-                             35 ; external ram data
+                             35 	.area _OVERLAY
                              36 ;--------------------------------------------------------
-                             37 	.area _XSEG
+                             37 ; indirectly addressable internal ram data
                              38 ;--------------------------------------------------------
-                             39 ; global & static initialisations
+                             39 	.area _ISEG
                              40 ;--------------------------------------------------------
-                             41 	.area _GSINIT
-                             42 	.area _GSFINAL
-                             43 	.area _GSINIT
+                             41 ; bit data
+                             42 ;--------------------------------------------------------
+                             43 	.area _BSEG
                              44 ;--------------------------------------------------------
-                             45 ; Home
+                             45 ; external ram data
                              46 ;--------------------------------------------------------
-                             47 	.area _HOME
-                             48 	.area _CODE
-                             49 ;--------------------------------------------------------
-                             50 ; code
-                             51 ;--------------------------------------------------------
-                             52 	.area _CODE
-                             53 ;	main.c 4
-                             54 ;	genLabel
-                             55 ;	genFunction
-                             56 ;	---------------------------------
-                             57 ; Function main
-                             58 ; ---------------------------------
-   0000                      59 ___main_start:
-   0000                      60 _main:
-                             61 	
-                             62 ;	main.c 5
-                             63 ;	genIpush
-                             64 ; _saveRegsForCall: sendSetSize: 0 deInUse: 0 bcInUse: 0 deSending: 0
-   0000 21 0A 00             65 	ld	hl,#__str_0
-   0003 E5                   66 	push	hl
-                             67 ;	genCall
-   0004 CD 00 00             68 	call	_printf
-   0007 E8 02                69 	lda	sp,2(sp)
-                             70 ;	genLabel
-   0009                      71 00101$:
-                             72 ;	genEndFunction
-                             73 	
-   0009 C9                   74 	ret
-   000A                      75 ___main_end:
-   000A                      76 __str_0:
-   000A 48 65 6C 6C 6F 20    77 	.ascii "Hello World"
-        57 6F 72 6C 64
-   0015 00                   78 	.db 0x00
-                             79 	.area _CODE
+                             47 	.area _XSEG
+                             48 ;--------------------------------------------------------
+                             49 ; global & static initialisations
+                             50 ;--------------------------------------------------------
+                             51 	.area _GSINIT
+                             52 	.area _GSFINAL
+                             53 	.area _GSINIT
+                             54 ;	main.c 26
+                             55 ;	main.c 80
+                             56 ;	genArrayInit
+                             57 ; _saveRegsForCall: sendSetSize: 0 deInUse: 0 bcInUse: 0 deSending: 0
+   0000 21 00 00             58 	ld	hl,#_Sprites
+   0003 CD 00 00             59 	call	__initrleblock
+   0006 78                   60 	.db	120
+   0007 FF FF FF FF C3 FC    61 	.db	0xFF, 0xFF, 0xFF, 0xFF, 0xC3, 0xFC, 0xC3, 0xFC
+        C3 FC
+   000F C3 FC C3 FC C3 FC    62 	.db	0xC3, 0xFC, 0xC3, 0xFC, 0xC3, 0xFC, 0xC3, 0xFC
+        C3 FC
+   0017 FF FF FF FF 3F C0    63 	.db	0xFF, 0xFF, 0xFF, 0xFF, 0x3F, 0xC0, 0x3F, 0xC0
+        3F C0
+   001F 3F C0 3F C0 3F C0    64 	.db	0x3F, 0xC0, 0x3F, 0xC0, 0x3F, 0xC0, 0x3F, 0xC0
+        3F C0
+   0027 FF FF FF FF FC 00    65 	.db	0xFF, 0xFF, 0xFF, 0xFF, 0xFC, 0x00, 0xFC, 0x00
+        FC 00
+   002F FC 00 FC 00 FC 00    66 	.db	0xFC, 0x00, 0xFC, 0x00, 0xFC, 0x00, 0xFC, 0x00
+        FC 00
+   0037 FF FF FF FF C3 03    67 	.db	0xFF, 0xFF, 0xFF, 0xFF, 0xC3, 0x03, 0xC3, 0x03
+        C3 03
+   003F C3 03 C3 03 C3 03    68 	.db	0xC3, 0x03, 0xC3, 0x03, 0xC3, 0x03, 0xC3, 0x03
+        C3 03
+   0047 C3 FC C3 FC FF FF    69 	.db	0xC3, 0xFC, 0xC3, 0xFC, 0xFF, 0xFF, 0xFF, 0xFF
+        FF FF
+   004F 0C 0F 0C 0F 0C 0F    70 	.db	0x0C, 0x0F, 0x0C, 0x0F, 0x0C, 0x0F, 0x0C, 0x0F
+        0C 0F
+   0057 3F C0 3F C0 FF FF    71 	.db	0x3F, 0xC0, 0x3F, 0xC0, 0xFF, 0xFF, 0xFF, 0xFF
+        FF FF
+   005F CF 30 CF 30 CF 30    72 	.db	0xCF, 0x30, 0xCF, 0x30, 0xCF, 0x30, 0xCF, 0x30
+        CF 30
+   0067 FC 00 FC 00 FF FF    73 	.db	0xFC, 0x00, 0xFC, 0x00, 0xFF, 0xFF, 0xFF, 0xFF
+        FF FF
+   006F F3 00 F3 00 F3 00    74 	.db	0xF3, 0x00, 0xF3, 0x00, 0xF3, 0x00, 0xF3, 0x00
+        F3 00
+   0077 C3 03 C3 03 FF FF    75 	.db	0xC3, 0x03, 0xC3, 0x03, 0xFF, 0xFF, 0xFF, 0xFF
+        FF FF
+   007F F8 30                76 	.db	-8,0x30
+   0081 30                   77 	.db	48
+   0082 0C 0F 0C 0F 0C 0F    78 	.db	0x0C, 0x0F, 0x0C, 0x0F, 0x0C, 0x0F, 0x0C, 0x0F
+        0C 0F
+   008A 0C 0F 0C 0F 0C 0F    79 	.db	0x0C, 0x0F, 0x0C, 0x0F, 0x0C, 0x0F, 0x0C, 0x0F
+        0C 0F
+   0092 CF 30 CF 30 CF 30    80 	.db	0xCF, 0x30, 0xCF, 0x30, 0xCF, 0x30, 0xCF, 0x30
+        CF 30
+   009A CF 30 CF 30 CF 30    81 	.db	0xCF, 0x30, 0xCF, 0x30, 0xCF, 0x30, 0xCF, 0x30
+        CF 30
+   00A2 F3 00 F3 00 F3 00    82 	.db	0xF3, 0x00, 0xF3, 0x00, 0xF3, 0x00, 0xF3, 0x00
+        F3 00
+   00AA F3 00 F3 00 F3 00    83 	.db	0xF3, 0x00, 0xF3, 0x00, 0xF3, 0x00, 0xF3, 0x00
+        F3 00
+   00B2 F0 30                84 	.db	-16,0x30
+   00B4 F0 0C                85 	.db	-16,0x0C
+   00B6 30                   86 	.db	48
+   00B7 CF 00 CF 00 CF 00    87 	.db	0xCF, 0x00, 0xCF, 0x00, 0xCF, 0x00, 0xCF, 0x00
+        CF 00
+   00BF CF 00 CF 00 CF 00    88 	.db	0xCF, 0x00, 0xCF, 0x00, 0xCF, 0x00, 0xCF, 0x00
+        CF 00
+   00C7 F3 0C F3 0C F3 0C    89 	.db	0xF3, 0x0C, 0xF3, 0x0C, 0xF3, 0x0C, 0xF3, 0x0C
+        F3 0C
+   00CF F3 0C F3 0C F3 0C    90 	.db	0xF3, 0x0C, 0xF3, 0x0C, 0xF3, 0x0C, 0xF3, 0x0C
+        F3 0C
+   00D7 30 F0 30 F0 30 F0    91 	.db	0x30, 0xF0, 0x30, 0xF0, 0x30, 0xF0, 0x30, 0xF0
+        30 F0
+   00DF 30 F0 30 F0 30 F0    92 	.db	0x30, 0xF0, 0x30, 0xF0, 0x30, 0xF0, 0x30, 0xF0
+        30 F0
+   00E7 F8 0C                93 	.db	-8,0x0C
+   00E9 7F                   94 	.db	127
+   00EA FF FF FF FF C3 C0    95 	.db	0xFF, 0xFF, 0xFF, 0xFF, 0xC3, 0xC0, 0xC3, 0xC0
+        C3 C0
+   00F2 CF 00 CF 00 CF 00    96 	.db	0xCF, 0x00, 0xCF, 0x00, 0xCF, 0x00, 0xCF, 0x00
+        CF 00
+   00FA FF FF FF FF 3F 00    97 	.db	0xFF, 0xFF, 0xFF, 0xFF, 0x3F, 0x00, 0x3F, 0x00
+        3F 00
+   0102 F3 0C F3 0C F3 0C    98 	.db	0xF3, 0x0C, 0xF3, 0x0C, 0xF3, 0x0C, 0xF3, 0x0C
+        F3 0C
+   010A FF FF FF FF FC 03    99 	.db	0xFF, 0xFF, 0xFF, 0xFF, 0xFC, 0x03, 0xFC, 0x03
+        FC 03
+   0112 30 F0 30 F0 30 F0   100 	.db	0x30, 0xF0, 0x30, 0xF0, 0x30, 0xF0, 0x30, 0xF0
+        30 F0
+   011A FF FF FF FF C3 3F   101 	.db	0xFF, 0xFF, 0xFF, 0xFF, 0xC3, 0x3F, 0xC3, 0x3F
+        C3 3F
+   0122 C3 C0 C3 C0 C3 C0   102 	.db	0xC3, 0xC0, 0xC3, 0xC0, 0xC3, 0xC0, 0xC3, 0xC0
+        C3 C0
+   012A C3 C0 C3 C0 FF FF   103 	.db	0xC3, 0xC0, 0xC3, 0xC0, 0xFF, 0xFF, 0xFF, 0xFF
+        FF FF
+   0132 3F 00 3F 00 3F 00   104 	.db	0x3F, 0x00, 0x3F, 0x00, 0x3F, 0x00, 0x3F, 0x00
+        3F 00
+   013A 3F 00 3F 00 FF FF   105 	.db	0x3F, 0x00, 0x3F, 0x00, 0xFF, 0xFF, 0xFF, 0xFF
+        FF FF
+   0142 FC 03 FC 03 FC 03   106 	.db	0xFC, 0x03, 0xFC, 0x03, 0xFC, 0x03, 0xFC, 0x03
+        FC 03
+   014A FC 03 FC 03 FF FF   107 	.db	0xFC, 0x03, 0xFC, 0x03, 0xFF, 0xFF, 0xFF, 0xFF
+        FF FF
+   0152 C3 3F C3 3F C3 3F   108 	.db	0xC3, 0x3F, 0xC3, 0x3F, 0xC3, 0x3F, 0xC3, 0x3F
+        C3 3F
+   015A C3 3F C3 3F FF FF   109 	.db	0xC3, 0x3F, 0xC3, 0x3F, 0xFF, 0xFF, 0xFF, 0xFF
+        FF FF
+   0162 00 00 00 00 03 03   110 	.db	0x00, 0x00, 0x00, 0x00, 0x03, 0x03, 0x0F
+        0F
+   0169 39                  111 	.db	57
+   016A 0C 1F 10 7F 78 FF   112 	.db	0x0C, 0x1F, 0x10, 0x7F, 0x78, 0xFF, 0x84, 0xFF
+        84 FF
+   0172 82 00 00 00 00 E0   113 	.db	0x82, 0x00, 0x00, 0x00, 0x00, 0xE0, 0xE0, 0xD0
+        E0 D0
+   017A 50 88 88 94 94 94   114 	.db	0x50, 0x88, 0x88, 0x94, 0x94, 0x94, 0x94, 0xC4
+        94 C4
+   0182 44 FF 82 7F 44 3F   115 	.db	0x44, 0xFF, 0x82, 0x7F, 0x44, 0x3F, 0x38, 0x3F
+        38 3F
+   018A 20 1F 18 07 07 00   116 	.db	0x20, 0x1F, 0x18, 0x07, 0x07, 0x00, 0x00, 0x00
+        00 00
+   0192 00 FE 3E C1 7F BE   117 	.db	0x00, 0xFE, 0x3E, 0xC1, 0x7F, 0xBE, 0xFE, 0xC2
+        FE C2
+   019A 7E FC 3C C0 C0 00   118 	.db	0x7E, 0xFC, 0x3C, 0xC0, 0xC0, 0x00, 0x00, 0x00
+        00 00
+   01A2 00                  119 	.db	0x00
+   01A3 00                  120 	.db	0
+                            121 ;	main.c 5
+                            122 ;	genAssign
+                            123 ;	AOP_HL for _column
+   01A4 21 C0 01            124 	ld	hl,#_column
+   01A7 36 00               125 	ld	(hl),#0x00
+                            126 ;	main.c 6
+                            127 ;	genAssign
+                            128 ;	AOP_HL for _i
+   01A9 21 C1 01            129 	ld	hl,#_i
+   01AC 36 00               130 	ld	(hl),#0x00
+   01AE 23                  131 	inc	hl
+   01AF 36 00               132 	ld	(hl),#0x00
+                            133 ;--------------------------------------------------------
+                            134 ; Home
+                            135 ;--------------------------------------------------------
+                            136 	.area _HOME
+                            137 	.area _CODE
+                            138 ;--------------------------------------------------------
+                            139 ; code
+                            140 ;--------------------------------------------------------
+                            141 	.area _CODE
+                            142 ;	main.c 10
+                            143 ;	genLabel
+                            144 ;	genFunction
+                            145 ;	---------------------------------
+                            146 ; Function setup_pipeLower
+                            147 ; ---------------------------------
+   0000                     148 ___setup_pipeLower_start:
+   0000                     149 _setup_pipeLower:
+   0000 E8 A4               150 	lda	sp,-92(sp)
+                            151 ;	main.c 15
+                            152 ;	genAssign
+                            153 ;	AOP_HL for _i
+   0002 21 C1 01            154 	ld	hl,#_i
+   0005 36 00               155 	ld	(hl),#0x00
+   0007 23                  156 	inc	hl
+   0008 36 00               157 	ld	(hl),#0x00
+                            158 ;	genLabel
+   000A                     159 00106$:
+                            160 ;	genCmpGt
+                            161 ;	AOP_HL for _i
+   000A 1E 80               162 	ld	e,#0x80
+   000C 21 C2 01            163 	ld	hl,#_i + 1
+   000F 7E                  164 	ld	a,(hl)
+   0010 EE 80               165 	xor	a,#0x80
+   0012 57                  166 	ld	d,a
+   0013 3E 29               167 	ld	a,#0x29
+   0015 2B                  168 	dec	hl
+   0016 96                  169 	sub	a,(hl)
+   0017 7B                  170 	ld	a,e
+   0018 9A                  171 	sbc	a,d
+   0019 DA C5 01            172 	jp	c,00110$
+                            173 ;	main.c 17
+                            174 ;	genCast
+                            175 ;	AOP_HL for _column
+   001C 21 C0 01            176 	ld	hl,#_column
+   001F 4E                  177 	ld	c,(hl)
+   0020 06 00               178 	ld	b,#0x00
+                            179 ;	genLeftShift
+                            180 ;	AOP_STK for _setup_pipeLower_sloc0_1_0
+   0022 F8 06               181 	lda	hl,6(sp)
+   0024 71                  182 	ld	(hl),c
+   0025 23                  183 	inc	hl
+   0026 70                  184 	ld	(hl),b
+   0027 3E 03               185 	ld	a,#0x02+1
+   0029 18 07               186 	jr	00117$
+   002B                     187 00116$:
+   002B F8 06               188 	lda	hl,6(sp)
+   002D CB 26               189 	sla	(hl)
+   002F 23                  190 	inc	hl
+   0030 CB 16               191 	rl	(hl)
+   0032                     192 00117$:
+   0032 3D                  193 	dec	a
+   0033 20 F6               194 	jr	nz,00116$
+                            195 ;	genAssign
+                            196 ;	AOP_HL for _i
+   0035 21 C1 01            197 	ld	hl,#_i
+   0038 4E                  198 	ld	c,(hl)
+   0039 23                  199 	inc	hl
+   003A 46                  200 	ld	b,(hl)
+                            201 ;	genMinus
+                            202 ;	AOP_STK for _setup_pipeLower_sloc0_1_0
+                            203 ; Removed redundent load
+                            204 ; Removed redundent load
+   003B F8 06               205 	lda	hl,6(sp)
+   003D 5E                  206 	ld	e,(hl)
+   003E 23                  207 	inc	hl
+   003F 56                  208 	ld	d,(hl)
+   0040 79                  209 	ld	a,c
+   0041 93                  210 	sub	a,e
+   0042 5F                  211 	ld	e,a
+   0043 78                  212 	ld	a,b
+   0044 9A                  213 	sbc	a,d
+   0045 47                  214 	ld	b,a
+   0046 4B                  215 	ld	c,e
+                            216 ;	genCmpEq
+                            217 ; genCmpEq: left 2, right 2, result 0
+   0047 79                  218 	ld	a,c
+   0048 FE 04               219 	cp	a,#0x04
+   004A C2 54 00            220 	jp	nz,00118$
+   004D 78                  221 	ld	a,b
+   004E B7                  222 	or	a,a
+   004F C2 5B 00            223 	jp	nz,00102$
+   0052 18 03               224 	jr	00119$
+   0054                     225 00118$:
+   0054 C3 5B 00            226 	jp	00102$
+   0057                     227 00119$:
+                            228 ;	main.c 18
+                            229 ;	genPlus
+                            230 ;	AOP_HL for _column
+                            231 ;	genPlusIncr
+   0057 21 C0 01            232 	ld	hl,#_column
+   005A 34                  233 	inc	(hl)
+                            234 ;	genLabel
+   005B                     235 00102$:
+                            236 ;	main.c 21
+                            237 ;	genCmpGt
+                            238 ;	AOP_HL for _i
+   005B 1E 80               239 	ld	e,#0x80
+   005D 21 C2 01            240 	ld	hl,#_i + 1
+   0060 7E                  241 	ld	a,(hl)
+   0061 EE 80               242 	xor	a,#0x80
+   0063 57                  243 	ld	d,a
+   0064 3E 0B               244 	ld	a,#0x0B
+   0066 2B                  245 	dec	hl
+   0067 96                  246 	sub	a,(hl)
+   0068 7B                  247 	ld	a,e
+   0069 9A                  248 	sbc	a,d
+   006A D2 DB 00            249 	jp	nc,00104$
+                            250 ;	main.c 22
+                            251 ;	genCast
+                            252 ;	AOP_HL for _column
+   006D 21 C0 01            253 	ld	hl,#_column
+   0070 4E                  254 	ld	c,(hl)
+   0071 06 00               255 	ld	b,#0x00
+                            256 ;	genLeftShift
+                            257 ;	AOP_STK for _setup_pipeLower_sloc0_1_0
+   0073 F8 06               258 	lda	hl,6(sp)
+   0075 71                  259 	ld	(hl),c
+   0076 23                  260 	inc	hl
+   0077 70                  261 	ld	(hl),b
+   0078 3E 03               262 	ld	a,#0x02+1
+   007A 18 07               263 	jr	00121$
+   007C                     264 00120$:
+   007C F8 06               265 	lda	hl,6(sp)
+   007E CB 26               266 	sla	(hl)
+   0080 23                  267 	inc	hl
+   0081 CB 16               268 	rl	(hl)
+   0083                     269 00121$:
+   0083 3D                  270 	dec	a
+   0084 20 F6               271 	jr	nz,00120$
+                            272 ;	genAssign
+                            273 ;	AOP_HL for _i
+   0086 21 C1 01            274 	ld	hl,#_i
+   0089 4E                  275 	ld	c,(hl)
+   008A 23                  276 	inc	hl
+   008B 46                  277 	ld	b,(hl)
+                            278 ;	genMinus
+                            279 ;	AOP_STK for _setup_pipeLower_sloc0_1_0
+                            280 ; Removed redundent load
+                            281 ; Removed redundent load
+   008C F8 06               282 	lda	hl,6(sp)
+   008E 5E                  283 	ld	e,(hl)
+   008F 23                  284 	inc	hl
+   0090 56                  285 	ld	d,(hl)
+   0091 79                  286 	ld	a,c
+   0092 93                  287 	sub	a,e
+   0093 5F                  288 	ld	e,a
+   0094 78                  289 	ld	a,b
+   0095 9A                  290 	sbc	a,d
+   0096 47                  291 	ld	b,a
+   0097 4B                  292 	ld	c,e
+                            293 ;	genPlus
+                            294 ;	genPlusIncr
+                            295 ;	Can't optimise plus by inc, falling back to the normal way
+   0098 79                  296 	ld	a,c
+   0099 C6 08               297 	add	a,#0x08
+   009B 4F                  298 	ld	c,a
+   009C 78                  299 	ld	a,b
+   009D CE 00               300 	adc	a,#0x00
+   009F 47                  301 	ld	b,a
+                            302 ;	genCast
+                            303 ; Removed redundent load
+                            304 ;	genCast
+                            305 ;	AOP_HL for _i
+   00A0 21 C1 01            306 	ld	hl,#_i
+   00A3 46                  307 	ld	b,(hl)
+                            308 ;	genIpush
+                            309 ; _saveRegsForCall: sendSetSize: 0 deInUse: 0 bcInUse: 0 deSending: 0
+   00A4 79                  310 	ld	a,c
+   00A5 F5                  311 	push	af
+   00A6 33                  312 	inc	sp
+                            313 ;	genIpush
+   00A7 78                  314 	ld	a,b
+   00A8 F5                  315 	push	af
+   00A9 33                  316 	inc	sp
+                            317 ;	genCall
+   00AA CD 00 00            318 	call	_set_sprite_tile
+   00AD E8 02               319 	lda	sp,2(sp)
+                            320 ;	main.c 23
+                            321 ;	genAddrOf
+   00AF F8 08               322 	lda	hl,8(sp)
+   00B1 4D                  323 	ld	c,l
+   00B2 44                  324 	ld	b,h
+                            325 ;	genLeftShift
+                            326 ;	AOP_HL for _i
+                            327 ;	AOP_STK for _setup_pipeLower_sloc0_1_0
+   00B3 21 C1 01            328 	ld	hl,#_i
+   00B6 7E                  329 	ld	a,(hl)
+   00B7 F8 06               330 	lda	hl,6(sp)
+   00B9 77                  331 	ld	(hl),a
+   00BA 21 C2 01            332 	ld	hl,#_i + 1
+   00BD 7E                  333 	ld	a,(hl)
+   00BE F8 07               334 	lda	hl,7(sp)
+   00C0 32                  335 	ld      (hl-),a
+   00C1 CB 26               336 	sla	(hl)
+   00C3 23                  337 	inc	hl
+   00C4 CB 16               338 	rl	(hl)
+                            339 ;	genPlus
+                            340 ;	AOP_STK for _setup_pipeLower_sloc0_1_0
+                            341 ;	Can't optimise plus by inc, falling back to the normal way
+   00C6 2B                  342 	dec	hl
+   00C7 2A                  343 	ld	a,(hl+)
+   00C8 66                  344 	ld	h,(hl)
+   00C9 6F                  345 	ld	l,a
+   00CA 09                  346 	add	hl,bc
+   00CB 4D                  347 	ld	c,l
+   00CC 44                  348 	ld	b,h
+                            349 ;	genAssign (pointer)
+                            350 ;	AOP_HL for _i
+   00CD 59                  351 	ld	e,c
+   00CE 50                  352 	ld	d,b
+   00CF 21 C1 01            353 	ld	hl,#_i
+   00D2 7E                  354 	ld	a,(hl)
+   00D3 12                  355 	ld	(de),a
+   00D4 13                  356 	inc	de
+   00D5 23                  357 	inc	hl
+   00D6 7E                  358 	ld	a,(hl)
+   00D7 12                  359 	ld	(de),a
+                            360 ;	genGoto
+   00D8 C3 13 01            361 	jp	00105$
+                            362 ;	genLabel
+   00DB                     363 00104$:
+                            364 ;	main.c 25
+                            365 ;	genCast
+                            366 ;	AOP_HL for _i
+   00DB 21 C1 01            367 	ld	hl,#_i
+   00DE 4E                  368 	ld	c,(hl)
+                            369 ;	genIpush
+                            370 ; _saveRegsForCall: sendSetSize: 0 deInUse: 0 bcInUse: 0 deSending: 0
+   00DF 79                  371 	ld	a,c
+   00E0 F5                  372 	push	af
+   00E1 33                  373 	inc	sp
+                            374 ;	genIpush
+   00E2 79                  375 	ld	a,c
+   00E3 F5                  376 	push	af
+   00E4 33                  377 	inc	sp
+                            378 ;	genCall
+   00E5 CD 00 00            379 	call	_set_sprite_tile
+   00E8 E8 02               380 	lda	sp,2(sp)
+                            381 ;	main.c 26
+                            382 ;	genAddrOf
+   00EA F8 08               383 	lda	hl,8(sp)
+   00EC 4D                  384 	ld	c,l
+   00ED 44                  385 	ld	b,h
+                            386 ;	genLeftShift
+                            387 ;	AOP_HL for _i
+                            388 ;	AOP_STK for _setup_pipeLower_sloc0_1_0
+   00EE 21 C1 01            389 	ld	hl,#_i
+   00F1 7E                  390 	ld	a,(hl)
+   00F2 F8 06               391 	lda	hl,6(sp)
+   00F4 77                  392 	ld	(hl),a
+   00F5 21 C2 01            393 	ld	hl,#_i + 1
+   00F8 7E                  394 	ld	a,(hl)
+   00F9 F8 07               395 	lda	hl,7(sp)
+   00FB 32                  396 	ld      (hl-),a
+   00FC CB 26               397 	sla	(hl)
+   00FE 23                  398 	inc	hl
+   00FF CB 16               399 	rl	(hl)
+                            400 ;	genPlus
+                            401 ;	AOP_STK for _setup_pipeLower_sloc0_1_0
+                            402 ;	Can't optimise plus by inc, falling back to the normal way
+   0101 2B                  403 	dec	hl
+   0102 2A                  404 	ld	a,(hl+)
+   0103 66                  405 	ld	h,(hl)
+   0104 6F                  406 	ld	l,a
+   0105 09                  407 	add	hl,bc
+   0106 4D                  408 	ld	c,l
+   0107 44                  409 	ld	b,h
+                            410 ;	genAssign (pointer)
+                            411 ;	AOP_HL for _i
+   0108 59                  412 	ld	e,c
+   0109 50                  413 	ld	d,b
+   010A 21 C1 01            414 	ld	hl,#_i
+   010D 7E                  415 	ld	a,(hl)
+   010E 12                  416 	ld	(de),a
+   010F 13                  417 	inc	de
+   0110 23                  418 	inc	hl
+   0111 7E                  419 	ld	a,(hl)
+   0112 12                  420 	ld	(de),a
+                            421 ;	genLabel
+   0113                     422 00105$:
+                            423 ;	main.c 29
+                            424 ;	genCast
+                            425 ;	AOP_HL for _column
+   0113 21 C0 01            426 	ld	hl,#_column
+   0116 4E                  427 	ld	c,(hl)
+   0117 06 00               428 	ld	b,#0x00
+                            429 ;	genLeftShift
+                            430 ;	AOP_STK for _setup_pipeLower_sloc0_1_0
+   0119 F8 06               431 	lda	hl,6(sp)
+   011B 71                  432 	ld	(hl),c
+   011C 23                  433 	inc	hl
+   011D 70                  434 	ld	(hl),b
+   011E 3E 04               435 	ld	a,#0x03+1
+   0120 18 07               436 	jr	00127$
+   0122                     437 00126$:
+   0122 F8 06               438 	lda	hl,6(sp)
+   0124 CB 26               439 	sla	(hl)
+   0126 23                  440 	inc	hl
+   0127 CB 16               441 	rl	(hl)
+   0129                     442 00127$:
+   0129 3D                  443 	dec	a
+   012A 20 F6               444 	jr	nz,00126$
+                            445 ;	genPlus
+                            446 ;	AOP_STK for _setup_pipeLower_sloc0_1_0
+                            447 ;	AOP_STK for _setup_pipeLower_sloc1_1_0
+                            448 ;	genPlusIncr
+                            449 ;	Can't optimise plus by inc, falling back to the normal way
+   012C F8 06               450 	lda	hl,6(sp)
+   012E 5E                  451 	ld	e,(hl)
+   012F 23                  452 	inc	hl
+   0130 56                  453 	ld	d,(hl)
+   0131 21 46 00            454 	ld	hl,#0x0046
+   0134 19                  455 	add	hl,de
+   0135 7D                  456 	ld	a,l
+   0136 54                  457 	ld	d,h
+   0137 F8 04               458 	lda	hl,4(sp)
+   0139 22                  459 	ld	(hl+),a
+   013A 72                  460 	ld	(hl),d
+                            461 ;	genCast
+                            462 ;	AOP_STK for _setup_pipeLower_sloc1_1_0
+                            463 ;	AOP_STK for _setup_pipeLower_sloc0_1_0
+   013B 2B                  464 	dec	hl
+   013C 2A                  465 	ld	a,(hl+)
+   013D 23                  466 	inc	hl
+                            467 ;	genLeftShift
+                            468 ;	AOP_STK for _setup_pipeLower_sloc1_1_0
+   013E 32                  469 	ld      (hl-),a
+   013F 2B                  470 	dec	hl
+   0140 71                  471 	ld	(hl),c
+   0141 23                  472 	inc	hl
+   0142 70                  473 	ld	(hl),b
+   0143 3E 03               474 	ld	a,#0x02+1
+   0145 18 07               475 	jr	00129$
+   0147                     476 00128$:
+   0147 F8 04               477 	lda	hl,4(sp)
+   0149 CB 26               478 	sla	(hl)
+   014B 23                  479 	inc	hl
+   014C CB 16               480 	rl	(hl)
+   014E                     481 00129$:
+   014E 3D                  482 	dec	a
+   014F 20 F6               483 	jr	nz,00128$
+                            484 ;	genAssign
+                            485 ;	AOP_HL for _i
+   0151 21 C1 01            486 	ld	hl,#_i
+   0154 4E                  487 	ld	c,(hl)
+   0155 23                  488 	inc	hl
+   0156 46                  489 	ld	b,(hl)
+                            490 ;	genMinus
+                            491 ;	AOP_STK for _setup_pipeLower_sloc1_1_0
+                            492 ; Removed redundent load
+                            493 ; Removed redundent load
+   0157 F8 04               494 	lda	hl,4(sp)
+   0159 5E                  495 	ld	e,(hl)
+   015A 23                  496 	inc	hl
+   015B 56                  497 	ld	d,(hl)
+   015C 79                  498 	ld	a,c
+   015D 93                  499 	sub	a,e
+   015E 5F                  500 	ld	e,a
+   015F 78                  501 	ld	a,b
+   0160 9A                  502 	sbc	a,d
+   0161 47                  503 	ld	b,a
+   0162 4B                  504 	ld	c,e
+                            505 ;	genLeftShift
+   0163 3E 04               506 	ld	a,#0x03+1
+   0165 18 04               507 	jr	00131$
+   0167                     508 00130$:
+   0167 CB 21               509 	sla	c
+   0169 CB 10               510 	rl	b
+   016B                     511 00131$:
+   016B 3D                  512 	dec	a
+   016C 20 F9               513 	jr	nz,00130$
+                            514 ;	genPlus
+                            515 ;	genPlusIncr
+                            516 ;	Can't optimise plus by inc, falling back to the normal way
+   016E 79                  517 	ld	a,c
+   016F C6 46               518 	add	a,#0x46
+   0171 4F                  519 	ld	c,a
+   0172 78                  520 	ld	a,b
+   0173 CE 00               521 	adc	a,#0x00
+   0175 47                  522 	ld	b,a
+                            523 ;	genCast
+                            524 ; Removed redundent load
+                            525 ;	genAddrOf
+                            526 ;	AOP_STK for _setup_pipeLower_sloc1_1_0
+   0176 F8 08               527 	lda	hl,8(sp)
+   0178 7D                  528 	ld	a,l
+   0179 54                  529 	ld	d,h
+   017A F8 04               530 	lda	hl,4(sp)
+   017C 22                  531 	ld	(hl+),a
+   017D 72                  532 	ld	(hl),d
+                            533 ;	genLeftShift
+                            534 ;	AOP_HL for _i
+                            535 ;	AOP_STK for _setup_pipeLower_sloc2_1_0
+   017E 21 C1 01            536 	ld	hl,#_i
+   0181 7E                  537 	ld	a,(hl)
+   0182 F8 02               538 	lda	hl,2(sp)
+   0184 77                  539 	ld	(hl),a
+   0185 21 C2 01            540 	ld	hl,#_i + 1
+   0188 7E                  541 	ld	a,(hl)
+   0189 F8 03               542 	lda	hl,3(sp)
+   018B 32                  543 	ld      (hl-),a
+   018C CB 26               544 	sla	(hl)
+   018E 23                  545 	inc	hl
+   018F CB 16               546 	rl	(hl)
+                            547 ;	genPlus
+                            548 ;	AOP_STK for _setup_pipeLower_sloc1_1_0
+                            549 ;	AOP_STK for _setup_pipeLower_sloc2_1_0
+                            550 ;	AOP_STK for _setup_pipeLower_sloc3_1_0
+                            551 ;	Can't optimise plus by inc, falling back to the normal way
+   0191 23                  552 	inc	hl
+   0192 5E                  553 	ld	e,(hl)
+   0193 23                  554 	inc	hl
+   0194 56                  555 	ld	d,(hl)
+   0195 F8 02               556 	lda	hl,2(sp)
+   0197 2A                  557 	ld	a,(hl+)
+   0198 66                  558 	ld	h,(hl)
+   0199 6F                  559 	ld	l,a
+   019A 19                  560 	add	hl,de
+   019B 7D                  561 	ld	a,l
+   019C 54                  562 	ld	d,h
+   019D F8 00               563 	lda	hl,0(sp)
+                            564 ;	genPointerGet
+                            565 ;	AOP_STK for _setup_pipeLower_sloc3_1_0
+                            566 ;	AOP_STK for _setup_pipeLower_sloc2_1_0
+   019F 22                  567 	ld	(hl+),a
+   01A0 72                  568 	ld	(hl),d
+   01A1 5F                  569 	ld	e,a
+   01A2 1A                  570 	ld	a,(de)
+   01A3 23                  571 	inc	hl
+   01A4 77                  572 	ld	(hl),a
+   01A5 13                  573 	inc	de
+   01A6 1A                  574 	ld	a,(de)
+   01A7 23                  575 	inc	hl
+                            576 ;	genCast
+                            577 ;	AOP_STK for _setup_pipeLower_sloc2_1_0
+   01A8 32                  578 	ld      (hl-),a
+   01A9 46                  579 	ld	b,(hl)
+                            580 ;	genIpush
+                            581 ; _saveRegsForCall: sendSetSize: 0 deInUse: 0 bcInUse: 0 deSending: 0
+                            582 ;	AOP_STK for _setup_pipeLower_sloc0_1_0
+   01AA F8 06               583 	lda	hl,6(sp)
+   01AC 7E                  584 	ld	a,(hl)
+   01AD F5                  585 	push	af
+   01AE 33                  586 	inc	sp
+                            587 ;	genIpush
+   01AF 79                  588 	ld	a,c
+   01B0 F5                  589 	push	af
+   01B1 33                  590 	inc	sp
+                            591 ;	genIpush
+   01B2 78                  592 	ld	a,b
+   01B3 F5                  593 	push	af
+   01B4 33                  594 	inc	sp
+                            595 ;	genCall
+   01B5 CD 00 00            596 	call	_move_sprite
+   01B8 E8 03               597 	lda	sp,3(sp)
+                            598 ;	main.c 15
+                            599 ;	genPlus
+                            600 ;	AOP_HL for _i
+                            601 ;	genPlusIncr
+   01BA 21 C1 01            602 	ld	hl,#_i
+   01BD 34                  603 	inc	(hl)
+   01BE 20 02               604 	jr	nz,00134$
+   01C0 23                  605 	inc	hl
+   01C1 34                  606 	inc	(hl)
+   01C2                     607 00134$:
+                            608 ;	genGoto
+   01C2 C3 0A 00            609 	jp	00106$
+                            610 ;	genLabel
+   01C5                     611 00110$:
+                            612 ;	genEndFunction
+   01C5 E8 5C               613 	lda	sp,92(sp)
+   01C7 C9                  614 	ret
+   01C8                     615 ___setup_pipeLower_end:
+                            616 ;	main.c 69
+                            617 ;	genLabel
+                            618 ;	genFunction
+                            619 ;	---------------------------------
+                            620 ; Function main
+                            621 ; ---------------------------------
+   01C8                     622 ___main_start:
+   01C8                     623 _main:
+   01C8 E8 FD               624 	lda	sp,-3(sp)
+                            625 ;	main.c 70
+                            626 ;	genIpush
+                            627 ; _saveRegsForCall: sendSetSize: 0 deInUse: 0 bcInUse: 0 deSending: 0
+   01CA 21 00 00            628 	ld	hl,#_Sprites
+   01CD E5                  629 	push	hl
+                            630 ;	genIpush
+   01CE 21 00 1C            631 	ld	hl,#0x1C00
+   01D1 E5                  632 	push	hl
+                            633 ;	genCall
+   01D2 CD 00 00            634 	call	_set_sprite_data
+   01D5 E8 04               635 	lda	sp,4(sp)
+                            636 ;	main.c 72
+                            637 ;	genCall
+                            638 ; _saveRegsForCall: sendSetSize: 0 deInUse: 0 bcInUse: 0 deSending: 0
+   01D7 CD 00 00            639 	call	_setup_pipeLower
+                            640 ;	main.c 76
+                            641 ;	genAssign
+   01DA 01 40 FF            642 	ld	bc,#0xFF40
+                            643 ;	genAssign
+                            644 ;	AOP_STK for _main_sloc0_1_0
+   01DD F8 01               645 	lda	hl,1(sp)
+   01DF 36 40               646 	ld	(hl),#0x40
+   01E1 23                  647 	inc	hl
+   01E2 36 FF               648 	ld	(hl),#0xFF
+                            649 ;	genPointerGet
+                            650 ;	AOP_STK for _main_sloc0_1_0
+                            651 ;	AOP_STK for _main_sloc1_1_0
+   01E4 2B                  652 	dec	hl
+   01E5 5E                  653 	ld	e,(hl)
+   01E6 23                  654 	inc	hl
+   01E7 56                  655 	ld	d,(hl)
+   01E8 1A                  656 	ld	a,(de)
+   01E9 2B                  657 	dec	hl
+   01EA 2B                  658 	dec	hl
+                            659 ;	genOr
+                            660 ;	AOP_STK for _main_sloc1_1_0
+   01EB 77                  661 	ld      (hl),a
+   01EC 7F                  662 	ld      a,a
+   01ED F6 02               663 	or	a,#0x02
+                            664 ;	genAssign (pointer)
+   01EF 02                  665 	ld	(bc),a
+                            666 ;	main.c 77
+                            667 ;	genAssign
+   01F0 01 40 FF            668 	ld	bc,#0xFF40
+                            669 ;	genAssign
+                            670 ;	AOP_STK for _main_sloc0_1_0
+   01F3 23                  671 	inc	hl
+   01F4 36 40               672 	ld	(hl),#0x40
+   01F6 23                  673 	inc	hl
+   01F7 36 FF               674 	ld	(hl),#0xFF
+                            675 ;	genPointerGet
+                            676 ;	AOP_STK for _main_sloc0_1_0
+                            677 ;	AOP_STK for _main_sloc1_1_0
+   01F9 2B                  678 	dec	hl
+   01FA 5E                  679 	ld	e,(hl)
+   01FB 23                  680 	inc	hl
+   01FC 56                  681 	ld	d,(hl)
+   01FD 1A                  682 	ld	a,(de)
+   01FE 2B                  683 	dec	hl
+   01FF 2B                  684 	dec	hl
+                            685 ;	genOr
+                            686 ;	AOP_STK for _main_sloc1_1_0
+   0200 77                  687 	ld      (hl),a
+   0201 7F                  688 	ld      a,a
+   0202 F6 80               689 	or	a,#0x80
+                            690 ;	genAssign (pointer)
+   0204 02                  691 	ld	(bc),a
+                            692 ;	genLabel
+   0205                     693 00101$:
+                            694 ;	genEndFunction
+   0205 E8 03               695 	lda	sp,3(sp)
+   0207 C9                  696 	ret
+   0208                     697 ___main_end:
+                            698 	.area _CODE
 ASxxxx Assembler V01.75  (GameBoy Z80-like CPU), page 1.
 
 Symbol Table
 
-  0 ___main_end                        000A R
-  0 ___main_start                      0000 R
-  0 __str_0                            000A R
-  0 _main                              0000 GR
-    _printf                            **** GX
+  1 _Sprites                           0000 GR
+  0 ___main_end                        0208 R
+  0 ___main_start                      01C8 R
+  0 ___setup_pipeLower_end             01C8 R
+  0 ___setup_pipeLower_start           0000 R
+    __initrleblock                     **** GX
+  1 _column                            01C0 GR
+  1 _i                                 01C1 GR
+  0 _main                              01C8 GR
+    _move_sprite                       **** GX
+    _set_sprite_data                   **** GX
+    _set_sprite_tile                   **** GX
+  0 _setup_pipeLower                   0000 GR
 
 ASxxxx Assembler V01.75  (GameBoy Z80-like CPU), page 2.
 
 Area Table
 
-   0 _CODE                              size   16   flags 0
-   1 _DATA                              size    0   flags 0
+   0 _CODE                              size  208   flags 0
+   1 _DATA                              size  1C3   flags 0
    2 _OVERLAY                           size    0   flags 0
    3 _ISEG                              size    0   flags 0
    4 _BSEG                              size    0   flags 0
    5 _XSEG                              size    0   flags 0
-   6 _GSINIT                            size    0   flags 0
+   6 _GSINIT                            size  1B1   flags 0
    7 _GSFINAL                           size    0   flags 0
    8 _HOME                              size    0   flags 0

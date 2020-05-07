@@ -1,5 +1,6 @@
 #include <gb/gb.h> 
 #include <stdio.h>
+#include <rand.h>
 #include "Sprites.c"
 
 UBYTE pipe_sprites[26];
@@ -64,6 +65,14 @@ void pipe_move(UINT8 x, UINT8 y) {
 
 }
 
+void pipe_scroll(UINT8 x, UINT8 y) {
+    UINT8 i;
+
+    for (i=0;i<26;i++) {
+        scroll_sprite(pipe_sprites[i], x, y);
+    }
+}
+
 // bird
 void bird_setup() {
 
@@ -84,9 +93,25 @@ void pDelay(UINT8 numloops){
 }
 
 void main() {
+    UINT8 pipes_x = 128;
+    UINT8 pipes_y = 96;
+
 	set_sprite_data(0, 26, Sprites);
     pipe_setup();
-    pipe_move(80,80);
+    pipe_move(pipes_x, pipes_y);
 
 	SHOW_SPRITES;
+
+    //main game loop
+    while(1) {
+        if (pipes_x == 240) {
+            pipes_x = 160;
+
+            pipe_move(pipes_x, ((((rand() & 9) + 1) * 8) + 64));
+        } else {
+            pipes_x -= 1;
+            pipe_scroll(-1, 0);
+        }
+        wait_vbl_done();
+    }
 }

@@ -16,66 +16,69 @@ AREA .  .ABS.
 		l__OVERLAY	0000
 		l__LIT	0000
 		l__GSINITTAIL	0001
-		l__BSS	005C
-		l__BASE	00EA
+		l__BSS	005E
+		l__BASE	0113
 		l__GSINIT	01A1
 		l__DATA	01C6
 		l__HOME	01D3
 		l__HEADER	01E1
 		s__CODE	0200
-		l__CODE	0521
-		s__HOME	0721
-		s__BASE	08F4
-		s__LIT	09DE
-		s__GSINIT	09DE
-		s__GSINITTAIL	0B7F
-		s__GSFINAL	0B80
+		l__CODE	05D9
+		s__HOME	07D9
+		s__BASE	09AC
+		s__LIT	0ABF
+		s__GSINIT	0ABF
+		s__GSINITTAIL	0C60
+		s__GSFINAL	0C61
 		.OAM	C000
 		s__DATA	C0A0
 		s__BSS	C266
-		s__HEAP	C2C2
-		s__BSEG	C2C2
-		s__ISEG	C2C2
-		s__XSEG	C2C2
-		s__OVERLAY	C2C2
+		s__HEAP	C2C4
+		s__BSEG	C2C4
+		s__ISEG	C2C4
+		s__XSEG	C2C4
+		s__OVERLAY	C2C4
 		.STACK	E000
 		.refresh_OAM	FF80
 AREA _CODE
 	RADIX HEX
 	BASE 0200
-	SIZE 0521
+	SIZE 05D9
 	ATTRIB REL CON
 	GLOBALS
 		_pipe_setup	0200
 		_pipe_move	02CA
-		_bird_setup	05D5
-		_bird_move	05D6
-		_pDelay	05D7
-		_main	05EB
-		__divschar_rrx_s	061F
-		__divschar_rrx_hds	0626
-		__modschar_rrx_s	062D
-		__modschar_rrx_hds	0634
-		__divsint_rrx_s	0639
-		__divsint_rrx_hds	0645
-		__modsint_rrx_s	064D
-		__modsint_rrx_hds	0659
-		__divuchar_rrx_s	065F
-		__divuchar_rrx_hds	0666
-		__moduchar_rrx_s	066D
-		__moduchar_rrx_hds	0674
-		__divuint_rrx_s	0679
-		__divuint_rrx_hds	0685
-		__moduint_rrx_s	068D
-		__moduint_rrx_hds	0699
-		.mod8	069F
-		.div8	069F
-		.mod16	06A7
-		.div16	06A7
-		.modu8	06E1
-		.divu8	06E1
-		.modu16	06E4
-		.divu16	06E4
+		_pipe_scroll	05D5
+		_bird_setup	060A
+		_bird_move	060B
+		_pDelay	060C
+		_main	0620
+		_rand	06AC
+		_randw	06AC
+		__divschar_rrx_s	06D7
+		__divschar_rrx_hds	06DE
+		__modschar_rrx_s	06E5
+		__modschar_rrx_hds	06EC
+		__divsint_rrx_s	06F1
+		__divsint_rrx_hds	06FD
+		__modsint_rrx_s	0705
+		__modsint_rrx_hds	0711
+		__divuchar_rrx_s	0717
+		__divuchar_rrx_hds	071E
+		__moduchar_rrx_s	0725
+		__moduchar_rrx_hds	072C
+		__divuint_rrx_s	0731
+		__divuint_rrx_hds	073D
+		__moduint_rrx_s	0745
+		__moduint_rrx_hds	0751
+		.mod8	0757
+		.div8	0757
+		.mod16	075F
+		.div16	075F
+		.modu8	0799
+		.divu8	0799
+		.modu16	079C
+		.divu16	079C
 AREA _HEADER
 	RADIX HEX
 	BASE 0000
@@ -85,88 +88,92 @@ AREA _HEADER
 		_exit	01D2
 AREA _HOME
 	RADIX HEX
-	BASE 0721
+	BASE 07D9
 	SIZE 01D3
 	ATTRIB REL CON
 	GLOBALS
-		.set_mode	0721
-		.remove_VBL	0731
-		.remove_LCD	0737
-		.remove_TIM	073D
-		.remove_SIO	0743
-		.remove_JOY	0749
-		.add_VBL	074F
-		.add_LCD	0755
-		.add_TIM	075B
-		.add_SIO	0761
-		.add_JOY	0767
-		.remove_int	076D
-		.add_int	078D
-		.wait_vbl_done	07A9
-		_wait_vbl_done	07A9
-		_display_off	07C0
-		.display_off	07C0
-		.serial_IO	07E1
-		_mode	0810
-		_get_mode	0819
-		_enable_interrupts	081E
-		_disable_interrupts	0820
-		_reset	0822
-		.reset	0822
-		_set_interrupts	0828
-		_remove_VBL	0833
-		_remove_LCD	083E
-		_remove_TIM	0849
-		_remove_SIO	0854
-		_remove_JOY	085F
-		_add_VBL	086A
-		_add_LCD	0875
-		_add_TIM	0880
-		_add_SIO	088B
-		_add_JOY	0896
-		_clock	08A1
-		__printTStates	08AA
-		banked_call	08AB
-		banked_ret	08C4
-		__initrleblock	08CD
+		.set_mode	07D9
+		.remove_VBL	07E9
+		.remove_LCD	07EF
+		.remove_TIM	07F5
+		.remove_SIO	07FB
+		.remove_JOY	0801
+		.add_VBL	0807
+		.add_LCD	080D
+		.add_TIM	0813
+		.add_SIO	0819
+		.add_JOY	081F
+		.remove_int	0825
+		.add_int	0845
+		.wait_vbl_done	0861
+		_wait_vbl_done	0861
+		_display_off	0878
+		.display_off	0878
+		.serial_IO	0899
+		_mode	08C8
+		_get_mode	08D1
+		_enable_interrupts	08D6
+		_disable_interrupts	08D8
+		_reset	08DA
+		.reset	08DA
+		_set_interrupts	08E0
+		_remove_VBL	08EB
+		_remove_LCD	08F6
+		_remove_TIM	0901
+		_remove_SIO	090C
+		_remove_JOY	0917
+		_add_VBL	0922
+		_add_LCD	092D
+		_add_TIM	0938
+		_add_SIO	0943
+		_add_JOY	094E
+		_clock	0959
+		__printTStates	0962
+		banked_call	0963
+		banked_ret	097C
+		__initrleblock	0985
 AREA _BASE
 	RADIX HEX
-	BASE 08F4
-	SIZE 00EA
+	BASE 09AC
+	SIZE 0113
 	ATTRIB REL CON
 	GLOBALS
-		.set_sprite_prop	08F4
-		_set_sprite_prop	0901
-		.mv_sprite	090C
-		_move_sprite	091B
-		_set_win_data	0928
-		_set_bkg_data	0928
-		_set_sprite_data	0975
-		.set_sprite_tile	09A4
-		_set_sprite_tile	09B1
-		.copy_vram	09BC
-		_get_data	09CB
-		_set_data	09CB
+		.set_sprite_prop	09AC
+		_set_sprite_prop	09B9
+		_initrand	09C4
+		.initrand	09C6
+		.mv_sprite	09CF
+		_move_sprite	09DE
+		_set_win_data	09EB
+		_set_bkg_data	09EB
+		_set_sprite_data	0A38
+		.scroll_sprite	0A67
+		_scroll_sprite	0A78
+		.set_sprite_tile	0A85
+		_set_sprite_tile	0A92
+		.copy_vram	0A9D
+		_get_data	0AAC
+		_set_data	0AAC
 AREA _LIT
 	RADIX HEX
-	BASE 09DE
+	BASE 0ABF
 	SIZE 0000
 	ATTRIB REL CON
 AREA _GSINIT
 	RADIX HEX
-	BASE 09DE
+	BASE 0ABF
 	SIZE 01A1
 	ATTRIB REL CON
 	GLOBALS
-		gsinit	09DE
+		gsinit	0ABF
 AREA _GSINITTAIL
 	RADIX HEX
-	BASE 0B7F
+	BASE 0C60
 	SIZE 0001
 	ATTRIB REL CON
 AREA _GSFINAL
 	RADIX HEX
-	BASE 0B80
+	BASE 0C61
 	SIZE 0000
 	ATTRIB REL CON
 AREA _DATA
@@ -181,7 +188,7 @@ AREA _DATA
 AREA _BSS
 	RADIX HEX
 	BASE C266
-	SIZE 005C
+	SIZE 005E
 	ATTRIB REL CON
 	GLOBALS
 		__cpu	C266
@@ -198,49 +205,55 @@ AREA _BSS
 		.int_0x50	C28F
 		.int_0x58	C29F
 		.int_0x60	C2AF
+		.randhi	C2BF
+		.randlo	C2C0
 AREA _HEAP
 	RADIX HEX
-	BASE C2C2
+	BASE C2C4
 	SIZE 0000
 	ATTRIB REL CON
 	GLOBALS
-		_malloc_heap_start	C2C2
+		_malloc_heap_start	C2C4
 AREA _OVERLAY
 	RADIX HEX
-	BASE C2C2
+	BASE C2C4
 	SIZE 0000
 	ATTRIB REL CON
 AREA _ISEG
 	RADIX HEX
-	BASE C2C2
+	BASE C2C4
 	SIZE 0000
 	ATTRIB REL CON
 AREA _BSEG
 	RADIX HEX
-	BASE C2C2
+	BASE C2C4
 	SIZE 0000
 	ATTRIB REL CON
 AREA _XSEG
 	RADIX HEX
-	BASE C2C2
+	BASE C2C4
 	SIZE 0000
 	ATTRIB REL CON
 MODULES
 	FILE /opt/gbdk/lib/small/asxxxx/gb/crt0.o
 		NAME Runtime
 	FILE main.o
-		NAME lcc384750
+		NAME lcc479190
 LIBRARIES
 	LIBRARY /opt/gbdk/lib/small/asxxxx/gbz80/gbz80.lib
 		MODULE crt0_rle.o
 	LIBRARY /opt/gbdk/lib/small/asxxxx/gb/gb.lib
 		MODULE set_prop.o
 	LIBRARY /opt/gbdk/lib/small/asxxxx/gb/gb.lib
+		MODULE rand.o
+	LIBRARY /opt/gbdk/lib/small/asxxxx/gb/gb.lib
 		MODULE mv_spr.o
 	LIBRARY /opt/gbdk/lib/small/asxxxx/gb/gb.lib
 		MODULE set_data.o
 	LIBRARY /opt/gbdk/lib/small/asxxxx/gbz80/gbz80.lib
 		MODULE div.o
+	LIBRARY /opt/gbdk/lib/small/asxxxx/gb/gb.lib
+		MODULE scroll_s.o
 	LIBRARY /opt/gbdk/lib/small/asxxxx/gb/gb.lib
 		MODULE set_spr.o
 	LIBRARY /opt/gbdk/lib/small/asxxxx/gb/gb.lib

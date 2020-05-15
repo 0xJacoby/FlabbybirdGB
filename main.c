@@ -10,7 +10,7 @@ UBYTE pipe_sprites[26];
 // pipe
 void pipe_setup()
 {
-    UINT8 i;
+    UINT8 i;    
 
     // rendering sprites
 
@@ -149,8 +149,8 @@ void main()
     UINT8 pipes_y = 96;
 
     set_sprite_data(0, 26, Sprites);
-    set_bkg_data(0, 186, bkg_data);
-    set_bkg_tiles(0, 0, 32, 18, bkg_map);
+    set_bkg_data(0, 133, bkg_data);
+    set_bkg_tiles(0, 0, 20, 18, bkg_map);
 
     pipe_setup();
     bird_state(0);

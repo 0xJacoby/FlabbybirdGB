@@ -17,19 +17,19 @@ AREA .  .ABS.
 		l__LIT	0000
 		l__GSINITTAIL	0001
 		l__BSS	005E
+		l__BASE	0191
 		l__GSINIT	01A1
-		l__BASE	01A7
 		l__DATA	01BA
 		l__HOME	01D3
 		l__HEADER	01E1
 		s__CODE	0200
-		l__CODE	1534
-		s__HOME	1734
-		s__BASE	1907
-		s__LIT	1AAE
-		s__GSINIT	1AAE
-		s__GSINITTAIL	1C4F
-		s__GSFINAL	1C50
+		l__CODE	10B4
+		s__HOME	12B4
+		s__BASE	1487
+		s__LIT	1618
+		s__GSINIT	1618
+		s__GSINITTAIL	17B9
+		s__GSFINAL	17BA
 		.OAM	C000
 		s__DATA	C0A0
 		s__BSS	C25A
@@ -43,45 +43,45 @@ AREA .  .ABS.
 AREA _CODE
 	RADIX HEX
 	BASE 0200
-	SIZE 1534
+	SIZE 10B4
 	ATTRIB REL CON
 	GLOBALS
 		_pipe_setup	0200
 		_bkg_data	02CA
-		_bkg_map	0E6A
-		_pipe_move	10AA
-		_pipe_scroll	13B5
-		_bird_setup	13EA
-		_bird_state	141F
-		_bird_scroll	14AC
-		_pDelay	14D1
-		_main	14E5
-		_rand	1607
-		_randw	1607
-		__divschar_rrx_s	1632
-		__divschar_rrx_hds	1639
-		__modschar_rrx_s	1640
-		__modschar_rrx_hds	1647
-		__divsint_rrx_s	164C
-		__divsint_rrx_hds	1658
-		__modsint_rrx_s	1660
-		__modsint_rrx_hds	166C
-		__divuchar_rrx_s	1672
-		__divuchar_rrx_hds	1679
-		__moduchar_rrx_s	1680
-		__moduchar_rrx_hds	1687
-		__divuint_rrx_s	168C
-		__divuint_rrx_hds	1698
-		__moduint_rrx_s	16A0
-		__moduint_rrx_hds	16AC
-		.mod8	16B2
-		.div8	16B2
-		.mod16	16BA
-		.div16	16BA
-		.modu8	16F4
-		.divu8	16F4
-		.modu16	16F7
-		.divu16	16F7
+		_bkg_map	0B1A
+		_pipe_move	0C82
+		_pipe_scroll	0F8D
+		_bird_setup	0FC2
+		_bird_state	0FF7
+		_bird_scroll	1084
+		_pDelay	10A9
+		_main	10BD
+		_rand	1187
+		_randw	1187
+		__divschar_rrx_s	11B2
+		__divschar_rrx_hds	11B9
+		__modschar_rrx_s	11C0
+		__modschar_rrx_hds	11C7
+		__divsint_rrx_s	11CC
+		__divsint_rrx_hds	11D8
+		__modsint_rrx_s	11E0
+		__modsint_rrx_hds	11EC
+		__divuchar_rrx_s	11F2
+		__divuchar_rrx_hds	11F9
+		__moduchar_rrx_s	1200
+		__moduchar_rrx_hds	1207
+		__divuint_rrx_s	120C
+		__divuint_rrx_hds	1218
+		__moduint_rrx_s	1220
+		__moduint_rrx_hds	122C
+		.mod8	1232
+		.div8	1232
+		.mod16	123A
+		.div16	123A
+		.modu8	1274
+		.divu8	1274
+		.modu16	1277
+		.divu16	1277
 AREA _HEADER
 	RADIX HEX
 	BASE 0000
@@ -91,98 +91,97 @@ AREA _HEADER
 		_exit	01D2
 AREA _HOME
 	RADIX HEX
-	BASE 1734
+	BASE 12B4
 	SIZE 01D3
 	ATTRIB REL CON
 	GLOBALS
-		.set_mode	1734
-		.remove_VBL	1744
-		.remove_LCD	174A
-		.remove_TIM	1750
-		.remove_SIO	1756
-		.remove_JOY	175C
-		.add_VBL	1762
-		.add_LCD	1768
-		.add_TIM	176E
-		.add_SIO	1774
-		.add_JOY	177A
-		.remove_int	1780
-		.add_int	17A0
-		.wait_vbl_done	17BC
-		_wait_vbl_done	17BC
-		_display_off	17D3
-		.display_off	17D3
-		.serial_IO	17F4
-		_mode	1823
-		_get_mode	182C
-		_enable_interrupts	1831
-		_disable_interrupts	1833
-		_reset	1835
-		.reset	1835
-		_set_interrupts	183B
-		_remove_VBL	1846
-		_remove_LCD	1851
-		_remove_TIM	185C
-		_remove_SIO	1867
-		_remove_JOY	1872
-		_add_VBL	187D
-		_add_LCD	1888
-		_add_TIM	1893
-		_add_SIO	189E
-		_add_JOY	18A9
-		_clock	18B4
-		__printTStates	18BD
-		banked_call	18BE
-		banked_ret	18D7
-		__initrleblock	18E0
+		.set_mode	12B4
+		.remove_VBL	12C4
+		.remove_LCD	12CA
+		.remove_TIM	12D0
+		.remove_SIO	12D6
+		.remove_JOY	12DC
+		.add_VBL	12E2
+		.add_LCD	12E8
+		.add_TIM	12EE
+		.add_SIO	12F4
+		.add_JOY	12FA
+		.remove_int	1300
+		.add_int	1320
+		.wait_vbl_done	133C
+		_wait_vbl_done	133C
+		_display_off	1353
+		.display_off	1353
+		.serial_IO	1374
+		_mode	13A3
+		_get_mode	13AC
+		_enable_interrupts	13B1
+		_disable_interrupts	13B3
+		_reset	13B5
+		.reset	13B5
+		_set_interrupts	13BB
+		_remove_VBL	13C6
+		_remove_LCD	13D1
+		_remove_TIM	13DC
+		_remove_SIO	13E7
+		_remove_JOY	13F2
+		_add_VBL	13FD
+		_add_LCD	1408
+		_add_TIM	1413
+		_add_SIO	141E
+		_add_JOY	1429
+		_clock	1434
+		__printTStates	143D
+		banked_call	143E
+		banked_ret	1457
+		__initrleblock	1460
 AREA _BASE
 	RADIX HEX
-	BASE 1907
-	SIZE 01A7
+	BASE 1487
+	SIZE 0191
 	ATTRIB REL CON
 	GLOBALS
-		.set_sprite_prop	1907
-		_set_sprite_prop	1914
-		_scroll_bkg	191F
-		_initrand	1935
-		.initrand	1937
-		.mv_sprite	1940
-		_move_sprite	194F
-		_set_win_data	195C
-		_set_bkg_data	195C
-		_set_sprite_data	19A9
-		.scroll_sprite	19D8
-		_scroll_sprite	19E9
-		.set_sprite_tile	19F6
-		_set_sprite_tile	1A03
-		.copy_vram	1A0E
-		_get_data	1A1D
-		_set_data	1A1D
-		_set_bkg_tiles	1A30
-		.set_xy_wtt	1A44
-		.set_xy_btt	1A55
-		.set_xy_tt	1A64
-		_set_tiles	1A95
+		.set_sprite_prop	1487
+		_set_sprite_prop	1494
+		_initrand	149F
+		.initrand	14A1
+		.mv_sprite	14AA
+		_move_sprite	14B9
+		_set_win_data	14C6
+		_set_bkg_data	14C6
+		_set_sprite_data	1513
+		.scroll_sprite	1542
+		_scroll_sprite	1553
+		.set_sprite_tile	1560
+		_set_sprite_tile	156D
+		.copy_vram	1578
+		_get_data	1587
+		_set_data	1587
+		_set_bkg_tiles	159A
+		.set_xy_wtt	15AE
+		.set_xy_btt	15BF
+		.set_xy_tt	15CE
+		_set_tiles	15FF
 AREA _LIT
 	RADIX HEX
-	BASE 1AAE
+	BASE 1618
 	SIZE 0000
 	ATTRIB REL CON
 AREA _GSINIT
 	RADIX HEX
-	BASE 1AAE
+	BASE 1618
 	SIZE 01A1
 	ATTRIB REL CON
 	GLOBALS
-		gsinit	1AAE
+		gsinit	1618
 AREA _GSINITTAIL
 	RADIX HEX
-	BASE 1C4F
+	BASE 17B9
 	SIZE 0001
 	ATTRIB REL CON
 AREA _GSFINAL
 	RADIX HEX
-	BASE 1C50
+	BASE 17BA
 	SIZE 0000
 	ATTRIB REL CON
 AREA _DATA
@@ -246,14 +245,12 @@ MODULES
 	FILE /opt/gbdk/lib/small/asxxxx/gb/crt0.o
 		NAME Runtime
 	FILE main.o
-		NAME lcc335060
+		NAME lcc557670
 LIBRARIES
 	LIBRARY /opt/gbdk/lib/small/asxxxx/gbz80/gbz80.lib
 		MODULE crt0_rle.o
 	LIBRARY /opt/gbdk/lib/small/asxxxx/gb/gb.lib
 		MODULE set_prop.o
-	LIBRARY /opt/gbdk/lib/small/asxxxx/gb/gb.lib
-		MODULE scroll_b.o
 	LIBRARY /opt/gbdk/lib/small/asxxxx/gb/gb.lib
 		MODULE rand.o
 	LIBRARY /opt/gbdk/lib/small/asxxxx/gb/gb.lib
